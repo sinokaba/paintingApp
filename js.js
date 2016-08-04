@@ -1,49 +1,59 @@
 $(function(){
 
-var askRows = parseInt(prompt("Enter number of rows:"));
-var askCols = parseInt(prompt("Enter number of columns:"));
+	var askRows = parseInt(prompt("Enter number of rows:"));
+	var askCols = parseInt(prompt("Enter number of columns:"));
+	var down = false;
 
-function createGrid(rows, cols){
-	var i = 0;
-	var grid = document.createElement("table");
-	grid.className = "grid";
-	for(var g = 1; g <= rows; g++){
-		var tr = grid.appendChild(document.createElement("tr"));
-		for(var j = 1; j <= cols; j++){
-			var cell = tr.appendChild(document.createElement("td"));
+	function createGrid(rows, cols){
+		var i = 0;
+		var grid = document.createElement("table");
+		grid.className = "grid";
+		for(var g = 1; g <= rows; g++){
+			var tr = grid.appendChild(document.createElement("tr"));
+			for(var j = 1; j <= cols; j++){
+				var cell = tr.appendChild(document.createElement("td"));
+			}
 		}
+		return grid;
 	}
-	return grid;
-}
-var grid = createGrid(askRows, askCols); 
+	var grid = createGrid(askRows, askCols); 
 
-$("#red").click(function(){
-		$("td").mouseover(function(){
-		$(this).css("background-color", "red");
-	});	
-})
-$("#blue").click(function(){
-		$("td").mouseover(function(){
-		$(this).css("background-color", "blue");
-	});	
-})
-$("#green").click(function(){
-		$("td").mouseover(function(){
-		$(this).css("background-color", "green");
-	});
-})
+	$("#black").click(function(){
+		paintIt("black");
+	})
+	$("#red").click(function(){
+		paintIt("red");
+	})
+	$("#blue").click(function(){
+		paintIt("blue");
+	})
+	$("#green").click(function(){
+		paintIt("green");
+	})
 
 
-$("#wrapper").append(grid);
+	$("#wrapper").append(grid);
 
-$("td").mouseover(function(){
-	$(this).css("background-color", "black");
-});
+	$("td").mousedown(function(){
+		$(this).css("background-color", "white");
+	})
 
-$("td").mousedown(function(){
-	$(this).css("background-color", "white");
-})
-$("#red").text("")
+
+	function paintIt(color){
+	$("td").bind({
+		    mousedown : function(){
+		    	down = true;  
+		    },
+		    mousemove : function(){
+		    	if(down){
+		        	$(this).css("background-color", color);
+		        }
+		    },
+		    mouseup : function(){
+		    	down = false;
+		   }
+		})
+	};
 });
 
 function clearBoard(){
